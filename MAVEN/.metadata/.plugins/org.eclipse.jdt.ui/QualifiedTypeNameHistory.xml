@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="javax.persistence.Persistence"/>
+<fullyQualifiedTypeName name="javax.persistence.EntityManagerFactory"/>
+<fullyQualifiedTypeName name="javax.persistence.EntityManager"/>
+<fullyQualifiedTypeName name="br.com.consultemed.model.Contato"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+<fullyQualifiedTypeName name="javax.persistence.EntityTransaction"/>
+<fullyQualifiedTypeName name="br.com.consultemed.conexao.Conexao"/>
+<fullyQualifiedTypeName name="java.awt.Dimension"/>
+<fullyQualifiedTypeName name="java.awt.Toolkit"/>
+<fullyQualifiedTypeName name="javax.swing.Box"/>
+<fullyQualifiedTypeName name="br.com.consultemed.window.consulta.NovaConsulta"/>
+<fullyQualifiedTypeName name="br.com.consultemed.window.consulta.BuscarConsulta"/>
+<fullyQualifiedTypeName name="br.com.consultemed.window.agendamento.NovoAgendamento"/>
+<fullyQualifiedTypeName name="br.com.consultemed.window.agendamento.BuscarAgendamento"/>
+<fullyQualifiedTypeName name="br.com.consultemed.window.paciente.NovoPaciente"/>
+<fullyQualifiedTypeName name="br.com.consultemed.window.paciente.BuscarPaciente"/>
+<fullyQualifiedTypeName name="br.com.consultemed.window.medico.NovoMedico"/>
+<fullyQualifiedTypeName name="br.com.consultemed.window.medico.BuscarMedico"/>
+<fullyQualifiedTypeName name="br.com.consultemed.window.operador.NovoOperador"/>
+<fullyQualifiedTypeName name="javax.persistence.Entity"/>
+<fullyQualifiedTypeName name="javax.persistence.GeneratedValue"/>
+<fullyQualifiedTypeName name="javax.persistence.Id"/>
+<fullyQualifiedTypeName name="javax.swing.table.AbstractTableModel"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="br.com.consultemed.model.Operador"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="br.com.consultemed.model.OperadorTableModel"/>
+<fullyQualifiedTypeName name="javax.swing.ListSelectionModel"/>
+<fullyQualifiedTypeName name="javax.swing.border.TitledBorder"/>
+<fullyQualifiedTypeName name="javax.swing.ImageIcon"/>
+<fullyQualifiedTypeName name="java.awt.Image"/>
+<fullyQualifiedTypeName name="javax.swing.Icon"/>
+<fullyQualifiedTypeName name="br.com.consultemed.connection.Conexao"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+</qualifiedTypeNameHistroy>

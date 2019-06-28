@@ -1,0 +1,6 @@
+INDEX VERSION 1.4+C:\Users\ruan_\Documents\MEGA\Projetos\POS_GRADUACAO\PROJETO-MAVEN-CADEIRA1\MAVEN\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3465978144.index
+3059565446.index
+3138027368.index
+723725974.index
+836007001.index
