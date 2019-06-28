@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import br.com.consultemed.connection.Conexao;
 import br.com.consultemed.window.agendamento.BuscarAgendamento;
 import br.com.consultemed.window.agendamento.NovoAgendamento;
 import br.com.consultemed.window.consulta.BuscarConsulta;
@@ -26,6 +27,8 @@ import java.awt.Font;
 import javax.swing.JMenuItem;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainMenu extends JFrame {
 
@@ -57,6 +60,8 @@ public class MainMenu extends JFrame {
 	public MainMenu() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, Integer.valueOf((int) tk.getWidth()), Integer.valueOf((int) tk.getHeight()));
+		
+		Conexao.iniciarFabrica();
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -237,6 +242,41 @@ public class MainMenu extends JFrame {
 		mntmNovo_3.setFont(new Font("SansSerif", Font.PLAIN, 20));
 		mnOperador.add(mntmNovo_3);
 		
+		menuBar.add(Box.createGlue());
+		
+		JMenu menu = new JMenu("-");
+		menu.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+				setExtendedState(ICONIFIED);
+			}
+		});
+		menu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				setExtendedState(ICONIFIED);
+			}
+		});
+		menu.setFont(new Font("SansSerif", Font.BOLD, 40));
+		menuBar.add(menu);
+		
+		JMenu mnX = new JMenu("X");
+		mnX.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				
+				System.exit(0);
+			}
+		});
+		mnX.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				System.exit(0);
+			}
+		});
+		mnX.setFont(new Font("SansSerif", Font.BOLD, 35));
+		menuBar.add(mnX);
 		
 	}
 

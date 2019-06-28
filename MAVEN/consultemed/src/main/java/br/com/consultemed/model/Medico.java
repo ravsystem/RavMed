@@ -14,7 +14,7 @@ public class Medico {
 	private String nome;
 	private String data_cadastro;
 	private String especialidade;
-	private List<String> dias;
+	private String dias;
 	private String tipo;
 	
 	public Medico() {}
@@ -51,11 +51,11 @@ public class Medico {
 		this.especialidade = especialidade;
 	}
 
-	public List<String> getDias() {
+	public String getDias() {
 		return dias;
 	}
 
-	public void setDias(List<String> dias) {
+	public void setDias(String dias) {
 		this.dias = dias;
 	}
 	

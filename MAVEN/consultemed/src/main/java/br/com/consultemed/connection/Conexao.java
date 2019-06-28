@@ -53,5 +53,36 @@ public class Conexao {
         return listaAgentes;
 	}
 	
+	public static void removeOperador(Operador operador) {
+		
+		EntityManager em = emf.createEntityManager();
+		
+		em.getTransaction().begin();
+		operador = em.find(Operador.class, operador.getId());
+        em.remove(operador);
+        em.getTransaction().commit();
+		
+	}
 	
+	public static Operador selecionaOperador(Long id) {
+		
+		EntityManager em = emf.createEntityManager();
+		Query query = em.createQuery("FROM Operador p where p.id = :id");
+		query.setParameter("id", id);
+		
+		List<Operador> operadores = query.getResultList();
+		Operador operador = new Operador();;
+		
+		for(int i = 0; i < operadores.size(); i++) {
+			
+			operador.setId(operadores.get(i).getId());
+			operador.setNome(operadores.get(i).getNome());
+			operador.setSenha(operadores.get(i).getSenha());
+			operador.setTipo(operadores.get(i).getTipo());
+
+		}
+		
+		return operador;
+		
+	}
 }

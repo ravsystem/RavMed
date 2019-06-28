@@ -13,6 +13,8 @@ import br.com.consultemed.model.Operador;
 import br.com.consultemed.model.OperadorTableModel;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class NovoOperador extends JFrame {
 
@@ -42,10 +46,9 @@ public class NovoOperador extends JFrame {
 	private JTable table;
 	private JPasswordField txtSenha;
 	private JTextField txtId;
+	private String oper_tipos[] = {"SECRETARIO(A)","SUPERVISOR(A)","MEDICO(A)","SUPORTE"};
+	private static Integer auxline;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -59,9 +62,6 @@ public class NovoOperador extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public NovoOperador() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 950, 470);
@@ -100,11 +100,18 @@ public class NovoOperador extends JFrame {
 		lblTipo.setFont(new Font("SansSerif", Font.BOLD, 18));
 		
 		txtUsuario = new JTextField();
+		txtUsuario.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				
+				txtUsuario.setText(txtUsuario.getText().toUpperCase());
+			}
+		});
 		txtUsuario.setBounds(88, 96, 323, 30);
 		txtUsuario.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		txtUsuario.setColumns(10);
 		
-		JComboBox cbTipo = new JComboBox();
+		JComboBox cbTipo = new JComboBox(oper_tipos);
 		cbTipo.setBounds(88, 192, 323, 30);
 		cbTipo.setFont(new Font("SansSerif", Font.PLAIN, 18));
 		contentPane.setLayout(null);
@@ -116,21 +123,137 @@ public class NovoOperador extends JFrame {
 		contentPane.add(cbTipo);
 		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(txtUsuario.getText().equals("") || txtSenha.getText().equals("")) {
+					
+					JOptionPane.showMessageDialog(NovoOperador.this, "Por favor Cidadăo, tenha vergonha na cara e preencha o usuário e senha para poder salvar!!");
+					
+				}else {
+					
+					String usuario = txtUsuario.getText();
+					String senha = txtSenha.getText();
+					String tipo = cbTipo.getSelectedItem().toString();
+					
+						Operador oper = new Operador();
+						oper.setNome(usuario);
+						oper.setSenha(senha);
+						oper.setTipo(tipo);
+						
+						try {
+						
+						Conexao.guardar(oper);
+						
+						}catch(NullPointerException f) {
+							JOptionPane.showMessageDialog(NovoOperador.this,"Ops.. Deve ter faltado preencher algo ai moral: \n" +f);
+						}
+						catch(Exception npe){
+							JOptionPane.showMessageDialog(NovoOperador.this, "Ops.. Erro ao gravar Operador: \n" +npe);
+						}
+						
+						modelo.addOperador(oper);
+						table.getModel();
+						
+						txtUsuario.setText("");
+						txtSenha.setText("");
+						cbTipo.setSelectedIndex(0);
+						txtId.setText("");
+						
+						JOptionPane.showMessageDialog(NovoOperador.this, "Operador Salvo com Sucesso!");
+					
+					txtUsuario.setText("");
+					txtId.setText("");
+					txtSenha.setText("");
+					cbTipo.setSelectedIndex(0);
+					
+					}
+			}
+		});
 		btnSalvar.setFont(new Font("SansSerif", Font.BOLD, 16));
 		btnSalvar.setBounds(10, 387, 89, 33);
 		contentPane.add(btnSalvar);
 		
 		JButton btnLimpar = new JButton("Limpar");
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				txtUsuario.setText("");
+				txtId.setText("");
+				txtSenha.setText("");
+				cbTipo.setSelectedIndex(0);
+			}
+		});
 		btnLimpar.setFont(new Font("SansSerif", Font.BOLD, 16));
 		btnLimpar.setBounds(109, 387, 89, 33);
 		contentPane.add(btnLimpar);
 		
 		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				NovoOperador.this.dispose();
+			}
+		});
 		btnVoltar.setFont(new Font("SansSerif", Font.BOLD, 16));
 		btnVoltar.setBounds(208, 387, 89, 33);
 		contentPane.add(btnVoltar);
 		
 		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Operador operaremovetable = new Operador();
+				Operador operador = new Operador();
+				
+				String id = txtId.getText();
+				
+				if(id.equals("") || id.equals(null)) {
+					
+					JOptionPane.showMessageDialog(NovoOperador.this, "Selecione uma linha, depois clique no pequeno Lápis acima da tabela para poder editar!");
+					
+				}else {
+				
+					Long idaux = Long.valueOf(id);
+				
+					try {
+						operaremovetable = Conexao.selecionaOperador(idaux);
+					}catch(NullPointerException f) {
+						JOptionPane.showMessageDialog(NovoOperador.this,"Erro ao Listar Operadores: \n" +f);
+					}
+					catch(Exception npe){
+						JOptionPane.showMessageDialog(NovoOperador.this, "Erro ao Listar Operadores: \n" +npe);
+					}
+					operador.setId(idaux);
+					operador.setNome(txtUsuario.getText());
+					operador.setSenha(txtSenha.getText());
+					operador.setTipo(cbTipo.getSelectedItem().toString());
+					
+					
+					modelo.removeOperador(auxline);
+					
+					try {
+						
+						Conexao.alterar(operador);
+					
+					}
+					catch(Exception npe){
+						JOptionPane.showMessageDialog(NovoOperador.this, "Erro ao alterar Operador: \n" +npe);
+					}
+					
+					txtUsuario.setText("");
+					txtSenha.setText("");
+					cbTipo.setSelectedIndex(0);
+					txtId.setText("");
+					
+					modelo.addOperador(operador);
+					table.getModel();
+					
+					JOptionPane.showMessageDialog(NovoOperador.this, "Operador Alterado com sucesso!!");
+					
+				}
+			}
+		});
 		btnAtualizar.setFont(new Font("SansSerif", Font.BOLD, 16));
 		btnAtualizar.setBounds(307, 387, 104, 33);
 		contentPane.add(btnAtualizar);
@@ -161,6 +284,26 @@ public class NovoOperador extends JFrame {
 		txtSenha.setBounds(88, 144, 323, 30);
 		contentPane.add(txtSenha);
 		
+		JButton btnNovo = new JButton("Novo");
+		btnNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				btnSalvar.setVisible(true);
+				btnAtualizar.setVisible(false);
+				
+				txtUsuario.setText("");
+				txtSenha.setText("");
+				cbTipo.setSelectedIndex(0);
+				txtId.setText("");
+				
+				btnNovo.setVisible(false);
+			}
+		});
+		btnNovo.setFont(new Font("SansSerif", Font.BOLD, 16));
+		btnNovo.setBounds(10, 253, 89, 33);
+		btnNovo.setVisible(false);
+		contentPane.add(btnNovo);
+		
 		ImageIcon iconEdit = new ImageIcon(NovoOperador.class.getResource("/br/com/consultemed/img/edit.png"));
 		Image imaEdit = iconEdit.getImage();
 		Image imagemEdit = imaEdit.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
@@ -169,6 +312,38 @@ public class NovoOperador extends JFrame {
 		JButton btnEdit = new JButton(icoEdit);
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				Operador Operador = new Operador();
+				
+				auxline = table.getSelectedRow();
+				String id = table.getValueAt(auxline, 0).toString();
+				
+				if(id.equals("") || id.equals(null)) {
+					
+					JOptionPane.showMessageDialog(NovoOperador.this, "Selecione uma linha para poder editar!");
+					
+				}else {
+					
+					btnSalvar.setVisible(false);
+					btnAtualizar.setVisible(true);
+					btnNovo.setVisible(true);
+				
+					Long idaux = Long.valueOf(id);
+					
+					try {
+					
+						Operador = Conexao.selecionaOperador(idaux);
+					
+					}
+					catch(Exception npe){
+						JOptionPane.showMessageDialog(NovoOperador.this, "Erro ao listar Operadores: \n" +npe);
+					}
+					
+					txtId.setText(String.valueOf(Operador.getId()));
+					txtUsuario.setText(Operador.getNome());
+					txtSenha.setText(Operador.getSenha());
+					cbTipo.setSelectedItem(Operador.getTipo());
+				}
 			}
 		});
 		btnEdit.setBounds(880, 58, 44, 30);
@@ -182,6 +357,44 @@ public class NovoOperador extends JFrame {
 		JButton btnRemov = new JButton(icoRe);
 		btnRemov.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				Operador operador = new Operador();
+				
+				auxline = table.getSelectedRow();
+				String id = table.getValueAt(auxline, 0).toString();
+				
+				if(id.equals("") || id.equals(null)) {
+					
+					JOptionPane.showMessageDialog(NovoOperador.this, "Selecione uma linha para poder excluir!");
+					
+				}else {
+				
+					Long idaux = Long.valueOf(id);
+					
+					operador = Conexao.selecionaOperador(idaux);
+					
+					if(JOptionPane.showConfirmDialog(NovoOperador.this, "Deseja mesmo excluir o Operador selecionado?") == 0) {
+					
+						try {
+							
+							Conexao.removeOperador(operador);
+						
+						}
+						catch(Exception npe){
+							JOptionPane.showMessageDialog(NovoOperador.this, "Erro ao remover Operador: \n" +npe);
+						}
+						
+						modelo.removeOperador(auxline);
+						
+						txtUsuario.setText("");
+						txtSenha.setText("");
+						cbTipo.setSelectedIndex(0);
+						txtId.setText("");
+						
+						JOptionPane.showMessageDialog(NovoOperador.this, "Operador Excluido com sucesso!!");
+					
+					}
+				}
 			}
 		});
 		btnRemov.setBounds(826, 58, 44, 30);
